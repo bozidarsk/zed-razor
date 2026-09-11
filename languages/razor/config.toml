@@ -3,5 +3,5 @@ grammar = "razor"
 path_suffixes = ["cshtml", "razor"]
 line_comments = ["// "]
 block_comment = ["/*", "*/"]
-tab_size = "4"
-hard_tabs = "true"
+tab_size = 4
+hard_tabs = true

@@ -1,0 +1,11 @@
+id = "zed-razor"
+name = "Razor"
+version = "0.0.1"
+schema_version = 1
+authors = ["Bozhidar <bozidarsk@proton.me>"]
+description = "Syntax highlighting support for razor (.cshtml and .razor) files."
+repository = "https://github.com/bozidarsk/zed-razor"
+
+[grammars.razor]
+repository = "https://github.com/tris203/tree-sitter-razor"
+rev	= "d4664e409caaea12f73c9525484e3cf88b1cf718"

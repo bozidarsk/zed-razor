@@ -9,3 +9,24 @@ repository = "https://github.com/bozidarsk/zed-razor"
 [grammars.razor]
 repository = "https://github.com/tris203/tree-sitter-razor"
 rev	= "d4664e409caaea12f73c9525484e3cf88b1cf718"
+
+# are "html" so it highlights/completes tags & attributes without knowing
+# anything about @ syntax.
+[language_servers.html-in-razor]
+name = "HTML"
+languages = ["Razor"]
+
+[language_servers.html-in-razor.language_ids]
+Razor = "html"
+
+# Same idea for CSS (covers <style> blocks and style="..." attributes).
+[language_servers.css-in-razor]
+name = "CSS"
+languages = ["Razor"]
+
+[language_servers.css-in-razor.language_ids]
+Razor = "css"
+
+[[capabilities]]
+kind = "npm:install"
+package = "@zed-industries/vscode-langservers-extracted"

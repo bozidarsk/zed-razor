@@ -10,6 +10,7 @@ repository = "https://github.com/bozidarsk/zed-razor"
 repository = "https://github.com/tris203/tree-sitter-razor"
 rev	= "d4664e409caaea12f73c9525484e3cf88b1cf718"
 
+# Generic HTML language server, told (via language_ids) that Razor buffers
 # are "html" so it highlights/completes tags & attributes without knowing
 # anything about @ syntax.
 [language_servers.html-in-razor]
@@ -27,6 +28,40 @@ languages = ["Razor"]
 [language_servers.css-in-razor.language_ids]
 Razor = "css"
 
+# Official Roslyn language server, told (via language_ids) that Razor
+# buffers are "razor" so its cohosting support handles @code blocks,
+# @ expressions, and Tag Helpers.
+[language_servers.roslyn-razor]
+name = "Roslyn"
+languages = ["Razor"]
+
+[language_servers.roslyn-razor.language_ids]
+Razor = "razor"
+
 [[capabilities]]
 kind = "npm:install"
 package = "@zed-industries/vscode-langservers-extracted"
+
+# Roslyn itself is downloaded straight from the NuGet feed as a
+# self-contained build — no dotnet/git required for this baseline path.
+[[capabilities]]
+kind = "download_file"
+host = "api.nuget.org"
+path = ["**"]
+
+# Only exercised by the optional razor_source_repository_root bootstrap
+# (see roslyn.rs) — harmless to leave declared even if you never use it.
+[[capabilities]]
+kind = "process:exec"
+command = "dotnet"
+args = ["**"]
+
+[[capabilities]]
+kind = "process:exec"
+command = "git"
+args = ["**"]
+
+[[capabilities]]
+kind = "process:exec"
+command = "test"
+args = ["**"]

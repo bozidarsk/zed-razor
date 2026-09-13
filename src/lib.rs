@@ -1,11 +1,15 @@
+mod language_servers;
+
 use std::env;
 
+use language_servers::Roslyn;
 use zed_extension_api::{self as zed, LanguageServerId, Result};
 
 const LANGSERVERS_PACKAGE: &str = "@zed-industries/vscode-langservers-extracted";
 
 struct Razor {
     langservers_ready: bool,
+    roslyn: Option<Roslyn>,
 }
 
 impl Razor {
@@ -71,6 +75,7 @@ impl zed::Extension for Razor {
     fn new() -> Self {
         Self {
             langservers_ready: false,
+            roslyn: None,
         }
     }
 
@@ -92,8 +97,23 @@ impl zed::Extension for Razor {
                 "node_modules/@zed-industries/vscode-langservers-extracted/bin/vscode-css-language-server",
                 worktree,
             ),
+            Roslyn::LANGUAGE_SERVER_ID => {
+                let roslyn = self.roslyn.get_or_insert_with(Roslyn::new);
+                roslyn.language_server_cmd(language_server_id, worktree)
+            }
             id => Err(format!("unknown language server: {id}")),
         }
+    }
+
+    fn language_server_workspace_configuration(
+        &mut self,
+        language_server_id: &LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<Option<zed::serde_json::Value>> {
+        if language_server_id.as_ref() == Roslyn::LANGUAGE_SERVER_ID {
+            return Roslyn::configuration_options(worktree);
+        }
+        Ok(None)
     }
 }
 

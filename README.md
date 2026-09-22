@@ -14,7 +14,7 @@ In `settings.json` you need to add where the razor source code (from `dotnet/ros
 "lsp": {
     "roslyn-razor": {
         "settings": {
-            "roslyn_source_repository_root": "~/.cache/dotnet-roslyn-src"
+            "roslyn_source_repository_root": ".cache/dotnet-roslyn-src" // or full path like /home/.../.cache/dotnet-roslyn-src
         }
     }
 }
